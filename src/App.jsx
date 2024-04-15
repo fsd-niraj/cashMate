@@ -30,7 +30,7 @@ const App = () => {
       dispatch(userLogin(JSON.parse(user)));
     }
 
-  }, [auth.isLoggedIn]);
+  }, [auth?.isLoggedIn]);
 
   return (
     <>

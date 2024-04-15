@@ -1,9 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 import reducers from "./index"
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
+const API_URL = "https://localhost:5000/api"
 
 export const apiSlice = createApi({
-  baseQuery: fetchBaseQuery({ baseUrl: 'http://localhost:5000/api' }),
+  baseQuery: fetchBaseQuery({ baseUrl: API_URL }),
   tagTypes: ['*'],
   endpoints: builder => ({})
 })
@@ -20,13 +21,8 @@ const loadState = () => {
 };
 
 const store = configureStore({
-  // reducer: {
-  //   [apiSlice.reducerPath]: apiSlice.reducer,
-  //   auth: auth
-  // },
   reducer: reducers,
   devTools: true,
-  // middleware: getDefault => getDefault().concat(apiSlice.middleware)
 });
 
 export default store;

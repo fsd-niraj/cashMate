@@ -54,7 +54,7 @@ const Login = () => {
         storeData(res?.data)
         dispatch(userLogin(res?.data))
         toast.success(res?.data?.message)
-        // return navigate("/");
+        return navigate("/");
       })
       .catch((err) => {
         return toast.error(err)

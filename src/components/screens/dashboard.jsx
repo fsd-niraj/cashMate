@@ -56,7 +56,7 @@ const Dashboard = () => {
     {
       id: 'totalItems',
       header: 'Total Items',
-      accessor: (row) => (row.itemList.reduce((ar, cr) => ar += cr.quantity, 0)),
+      accessor: (row) => row.itemList.reduce((ar, cr) => ar += cr.quantity, 0),
       width: 10
     },
     {

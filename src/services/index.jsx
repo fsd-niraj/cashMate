@@ -2,6 +2,7 @@ import Axios from "../utils/axiosInterceptors";
 import { toast } from "react-toastify";
 
 const API_URL = "http://localhost:5000/api";
+// const API_URL = "https://cash-mate-backend-git-main-fsdnirajs-projects.vercel.app/api";
 
 const errToast = (error) => {
   return toast.error(error)
@@ -26,7 +27,7 @@ export const signUp = async (payload) => {
 };
 
 export const getProductList = async (payload) => {
-  return await Axios.post(`${API_URL}/product/get-all-products`, payload)
+  return await Axios.get(`${API_URL}/product/get-all-products`, payload)
     .then((res) => res?.data)
     .catch((err) => errToast(err.response.data.message));
 };
@@ -38,7 +39,7 @@ export const addItem = async (payload) => {
 };
 
 export const editItem = async (payload) => {
-  return await Axios.post(`${API_URL}/product/update-product`, payload)
+  return await Axios.put(`${API_URL}/product/update-product`, payload)
     .then((res) => res?.data)
     .catch((err) => errToast(err.response.data.message));
 };
@@ -56,7 +57,7 @@ export const createTransaction = async (payload) => {
 };
 
 export const getTransactions = async (payload) => {
-  return await Axios.post(`${API_URL}/transaction/get-all-transactions`, payload)
+  return await Axios.get(`${API_URL}/transaction/get-all-transactions`, payload)
     .then((res) => res?.data)
     .catch((err) => errToast(err.response.data.message));
 };
@@ -74,7 +75,7 @@ export const downloadTransactions = async (payload) => {
 };
 
 export const getUserDetails = async (payload) => {
-  return await Axios.post(`${API_URL}/auth/get-user-details`)
+  return await Axios.get(`${API_URL}/auth/get-user-details`)
     .then((res) => res?.data)
     .catch((err) => errToast(err.response.data.message));
 };

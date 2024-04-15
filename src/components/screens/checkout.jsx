@@ -38,10 +38,10 @@ const Checkout = () => {
   }, 0);
 
   const pricing = {
-    itemTotal: subTotal,
+    itemTotal: parseInt(subTotal).toFixed(2),
     discount: DISCOUNT,
     addTax: HST,
-    netPayable: subTotal - DISCOUNT + (subTotal * HST / 100)
+    netPayable: subTotal + subTotal * HST / 100
   }
 
   const BreakDownSection = () => {
@@ -62,10 +62,9 @@ const Checkout = () => {
                 <h6 className="my-0">{data?.title}:</h6>
               </div>
               <span className="text-body-secondary">
-                {data?.amount?.toFixed(2)}</span>
+                {data?.amount}</span>
             </li>
           )}
-          {/* <PromoCodeSection code="FIRST5" /> */}
         </ul>
       </>
     )
@@ -108,7 +107,7 @@ const Checkout = () => {
         <div className="w-100">
           {/* <PromoCodeForm /> */}
           <BreakDownSection />
-          <button className="btn btn-primary btn-lg btn-block w-100 py-3 rounded-1 mt-3" disabled={itemList?.length <= 0} onClick={() => checkoutPayment()}>Charge {viewAsCurrency(parseInt(pricing.netPayable.toFixed(2)))}</button>
+          <button className="btn btn-primary btn-lg btn-block w-100 py-3 rounded-1 mt-3" disabled={itemList?.length <= 0} onClick={() => checkoutPayment()}>Charge {viewAsCurrency(pricing.netPayable)}</button>
         </div>
       </aside>
     </>

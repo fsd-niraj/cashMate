@@ -34,7 +34,7 @@ const Table = ({ columns, data, isLoading, onRowClick }) => {
       {isLoading ? (<Spinner />) :
         data?.length > 0 ?
           <table className="table table-hover cursor-pointer">
-            <thead style={{ position: "sticky", top: 60 }}>
+            <thead style={{ position: "sticky", top: 0 }}>
               <tr>
                 {columns?.map((col) => (
                   <th key={col.id}

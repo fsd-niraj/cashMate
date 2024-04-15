@@ -15,7 +15,7 @@ const IncorrectRoute = () => {
             The route <code>/{params["*"]}</code> that you are trying to access is currently not available or incorrect.
           </p>
           <div className="d-inline-flex gap-2 mb-5">
-            {!auth.isLoggedIn &&
+            {!auth?.isLoggedIn &&
               <a href="/login">
                 <button className="d-inline-flex align-items-center btn btn-primary btn-lg px-4 rounded-pill" type="button">
                   Log in
