@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { Outlet, useParams } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
 import { userLogout } from '../../reducers/auth';
 import { logoutRoute } from '../../services';
 import { resetItems } from '../../reducers/items';
@@ -7,6 +7,7 @@ import { resetItems } from '../../reducers/items';
 const Layout = () => {
 
   const auth = JSON.parse(localStorage.getItem("user"))
+  // const auth = useSelector((s)=> s.auth)
   const dispatch = useDispatch()
 
   const logout = () => {
@@ -47,8 +48,8 @@ const Layout = () => {
                 </ul>
                 <div className="dropdown text-end">
                   <a href="/" className="d-block link-body-emphasis text-decoration-none dropdown-toggle show" data-bs-toggle="dropdown" aria-expanded={false}>
-                    {auth?.user?.img ?
-                      <img src="https://github.com/mdo.png" alt="mdo" width="32" height="32" className="rounded-circle" /> :
+                    {auth?.user?.profileImageUrl ?
+                      <img src={auth?.user?.profileImageUrl} alt={auth?.user?.name} width="32" height="32" className="rounded-circle" /> :
                       <i className="bi bi-person-circle h2 text-white ms-2" />
                     }
                   </a>

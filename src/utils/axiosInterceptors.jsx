@@ -10,8 +10,17 @@ const Axios = axios.create({
 
 Axios.interceptors.request.use(async (req) => {
   if (userData?.accessToken) req.headers.authorization = `Bearer ${userData.accessToken}`;
-  if (userData?.user?._id) req.data = { ...req?.data, _id: userData?.user?._id, email: userData?.user?.email };
-  // if (!userData?.user?._id && !req.url.includes("/user-login") || !req.url.includes("/create-user")) return toast.error("User id not found");
+  // if (userData?.user?._id) req.data = { ...req?.data, _id: userData?.user?._id };
+  if (userData?.user?._id) {
+    if (req.data && !(req.data instanceof FormData)) {
+      req.data = { ...req.data, _id: userData.user._id };
+    } else if (!(req.data instanceof FormData)) {
+      // If request body doesn't exist or is FormData, create new FormData and append _id
+      const formData = new FormData();
+      formData.append('_id', userData.user._id);
+      req.data = formData;
+    }
+  }
   return req;
 },
   (err) => {

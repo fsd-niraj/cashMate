@@ -1,21 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { getProductList, getUserDetails } from "../services";
-import { useSelector } from "react-redux";
+import { getUserDetails } from "../services";
 import { viewAsCurrency } from "../global/functions";
+import { userLogin } from "../reducers/auth";
+import { useDispatch } from "react-redux";
 
 const Home = () => {
   const auth = JSON.parse(localStorage.getItem("user"))
-  const [data, setData] = useState([{}]);
+  const dispatch = useDispatch()
   const [userData, setUserData] = useState({});
 
   useEffect(() => {
-    if (auth?.isLoggedIn) {
-      fetch()
-    }
-  }, [auth?.isLoggedIn])
+    fetch()
+  }, [])
 
   function fetch() {
-    getUserDetails().then((res) => setUserData(res?.data)).catch((err) => console.error(err))
+    getUserDetails().then((res) => {
+      setUserData(res?.data)
+      // dispatch(userLogin(res?.data))
+    }).catch((err) => console.error(err))
   }
 
   return (

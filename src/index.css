@@ -44,3 +44,16 @@
     --ring: 224.3 76.3% 48%;
   }
 }
+
+.custom-file-upload {
+  border: 1px solid #ccc;
+  display: inline-block;
+  padding: 6px 12px;
+  cursor: pointer;
+  background-color: #f9f9f9;
+  border-radius: 4px;
+}
+
+.custom-file-upload:hover {
+  background-color: #e9e9e9;
+}

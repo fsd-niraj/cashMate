@@ -4,7 +4,6 @@ import Table from "../resuable/table"
 import { viewAsCurrency } from "../../global/functions"
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
-import { Link } from 'react-router-dom';
 
 const Dashboard = () => {
 

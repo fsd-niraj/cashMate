@@ -52,7 +52,6 @@ const Signup = () => {
       name: input.name,
       email: input.email,
       password: input.password,
-      confPassword: input.confPassword,
     }
     return signUp(payload)
       .then((res) => {

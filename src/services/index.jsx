@@ -2,7 +2,6 @@ import Axios from "../utils/axiosInterceptors";
 import { toast } from "react-toastify";
 
 const API_URL = "http://localhost:5000/api";
-// const API_URL = "https://cash-mate-backend-git-main-fsdnirajs-projects.vercel.app/api";
 
 const errToast = (error) => {
   return toast.error(error)
@@ -74,8 +73,32 @@ export const downloadTransactions = async (payload) => {
     .catch((err) => errToast(err.response.data.message));
 };
 
-export const getUserDetails = async (payload) => {
+export const getUserDetails = async () => {
   return await Axios.get(`${API_URL}/auth/get-user-details`)
+    .then((res) => res?.data)
+    .catch((err) => errToast(err.response.data.message));
+};
+
+export const updateUser = async (payload) => {
+  return await Axios.post(`${API_URL}/auth/update-user`, payload)
+    .then((res) => res?.data)
+    .catch((err) => errToast(err.response.data.message));
+};
+
+export const updateUserProfileImage = async (payload) => {
+  console.log("my payload", payload)
+  return await Axios.post(`${API_URL}/auth/update-user-profile`, payload, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  })
+    .then((res) => res?.data)
+    .catch((err) => errToast(err.response.data.message));
+};
+
+export const removeUserProfileImage = async (payload) => {
+  return await Axios.post(`${API_URL}/auth/remove-user-profile`, payload, {
+  })
     .then((res) => res?.data)
     .catch((err) => errToast(err.response.data.message));
 };
