@@ -5,8 +5,10 @@ const initialState = {
   user: {
     name: "",
     email: "",
-    _id: ""
+    _id: "",
+    profileImageUrl: ""
   },
+  profileImageUrl: "",
   accessToken: null,
   refreshToken: null
 }
@@ -27,6 +29,11 @@ const auth = createSlice({
       }
       return state;
     },
+    userProfileImage(state, action) {
+      const { profileImageUrl } = action.payload;
+      state.profileImageUrl = profileImageUrl;
+      return state;
+    },
     userLogout() {
       localStorage.clear()
       return initialState;
@@ -34,7 +41,7 @@ const auth = createSlice({
   }
 })
 
-export const { userLogin, userLogout } = auth.actions;
+export const { userLogin, userLogout, userProfileImage } = auth.actions;
 
 export default auth.reducer;
 

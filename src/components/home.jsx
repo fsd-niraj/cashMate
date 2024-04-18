@@ -10,13 +10,15 @@ const Home = () => {
   const [userData, setUserData] = useState({});
 
   useEffect(() => {
-    fetch()
+    if (auth.isLoggedIn) {
+      fetch()
+    }
   }, [])
 
   function fetch() {
     getUserDetails().then((res) => {
       setUserData(res?.data)
-      // dispatch(userLogin(res?.data))
+      dispatch(userLogin(res?.data))
     }).catch((err) => console.error(err))
   }
 

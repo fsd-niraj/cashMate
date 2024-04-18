@@ -1,13 +1,14 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { Outlet } from 'react-router-dom';
 import { userLogout } from '../../reducers/auth';
-import { logoutRoute } from '../../services';
+import { getUserDetails, logoutRoute } from '../../services';
 import { resetItems } from '../../reducers/items';
+import { useEffect, useState } from 'react';
 
 const Layout = () => {
 
-  const auth = JSON.parse(localStorage.getItem("user"))
-  // const auth = useSelector((s)=> s.auth)
+  const auth = useSelector((s) => s.auth)
+  const [userData, setUserData] = useState({})
   const dispatch = useDispatch()
 
   const logout = () => {
@@ -15,6 +16,18 @@ const Layout = () => {
     dispatch(resetItems())
     logoutRoute()
   }
+
+  function fetchUserData() {
+    getUserDetails()
+      .then((res) => {
+        setUserData(res?.data)
+      })
+      .catch((err) => console.error(err));
+  }
+
+  useEffect(() => {
+    fetchUserData()
+  }, [auth?.profileImageUrl])
 
   const navList = [
     { title: "Home", icon: "bi bi-house", href: "/" },
@@ -48,9 +61,9 @@ const Layout = () => {
                 </ul>
                 <div className="dropdown text-end">
                   <a href="/" className="d-block link-body-emphasis text-decoration-none dropdown-toggle show" data-bs-toggle="dropdown" aria-expanded={false}>
-                    {auth?.user?.profileImageUrl ?
-                      <img src={auth?.user?.profileImageUrl} alt={auth?.user?.name} width="32" height="32" className="rounded-circle" /> :
-                      <i className="bi bi-person-circle h2 text-white ms-2" />
+                    {userData?.profileImageUrl ?
+                      <img src={userData?.profileImageUrl} alt={auth?.user?.name} width="32" height="32" className="rounded-circle" /> :
+                      <i className="bi bi-person-circle h2 text-white ms-2" style={{ height: 32, width: 32 }} />
                     }
                   </a>
                   <ul className="dropdown-menu text-small" style={{ position: "absolute", inset: "0px 0px auto auto", margin: "0px", transform: "translate(0px, 34px)" }} data-popper-placement="bottom-end">

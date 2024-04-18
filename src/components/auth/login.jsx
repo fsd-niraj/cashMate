@@ -52,8 +52,7 @@ const Login = () => {
     return logIn(payload)
       .then((res) => {
         storeData(res?.data)
-        dispatch(userLogin(res?.data))
-        toast.success(res?.data?.message)
+        // toast.success(res?.data?.message)
         return navigate("/");
       })
       .catch((err) => {

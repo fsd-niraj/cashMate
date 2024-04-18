@@ -2,10 +2,11 @@ import { useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { getUserDetails, removeUserProfileImage, updateUser, updateUserProfileImage } from "../../services";
 import { toast } from "react-toastify";
-import { userLogin } from "../../reducers/auth";
+import Spinner from "../resuable/loaders/spinner";
+import { userLogin, userProfileImage } from "../../reducers/auth";
 
 const ProfilePage = () => {
-  const auth = JSON.parse(localStorage.getItem("user")) || useSelector((s) => s?.auth);
+  // const auth = JSON.parse(localStorage.getItem("user")) || useSelector((s) => s?.auth);
   const dispatch = useDispatch();
   const [userData, setUserData] = useState({});
   const [editData, setEditData] = useState({
@@ -18,6 +19,8 @@ const ProfilePage = () => {
   })
   const [profileImage, setProfileImage] = useState(null)
   const [preview, setPreview] = useState(null)
+  const [uploading, setUploading] = useState(false)
+  const auth = useSelector((s) => s.auth)
 
   useEffect(() => {
     if (auth?.isLoggedIn) {
@@ -30,7 +33,6 @@ const ProfilePage = () => {
       .then((res) => {
         setUserData(res?.data)
         setEditData({ name: res?.data?.name, email: res?.data?.email })
-        dispatch(userLogin(res?.data))
       })
       .catch((err) => console.error(err));
   }
@@ -75,35 +77,49 @@ const ProfilePage = () => {
 
   const handleUploadImage = () => {
     if (!profileImage) return toast.error("Please select image to upload")
+    setUploading(true)
     const formData = new FormData();
     formData.append("profileImage", profileImage);
     updateUserProfileImage(formData)
-      .then(() => fetchUserData())
+      .then(() => {
+        setUploading(false)
+        fetchUserData()
+        dispatch(userProfileImage(userData.profileImageUrl))
+      })
       .catch((err) => console.error(err))
   }
 
   const removeImage = () => {
     return removeUserProfileImage()
-    .then(()=> {
-      setPreview(null)
-      setProfileImage(null)
-      fetchUserData()
-    })
+      .then(() => {
+        setPreview(null)
+        setProfileImage(null)
+        fetchUserData()
+        dispatch(userProfileImage(""))
+      })
   }
+
+  console.log(userData)
 
   return (
     <div className="container py-5" id="featured-3">
       <h2 className="pb-2">Profile</h2>
       <div className="text-center mt-2">
-        <div>
-          {userData?.profileImageUrl ?
-            <img src={userData?.profileImageUrl} className="rounded-circle object-fit-cover" width={200} height={200} alt="" /> :
-            preview ? <img src={preview} className="rounded-circle object-fit-cover" width={200} height={200} alt="" /> :
-              <div style={{ textAlign: "center" }}>
-                <i className="bi bi-person-circle display-1" />
-              </div>
-          }
-        </div>
+        {uploading ?
+          <>
+            <Spinner />
+            <p className="mt-2">Uploading</p>
+          </> :
+          <div>
+            {userData?.profileImageUrl ?
+              <img src={userData?.profileImageUrl} className="rounded-circle object-fit-cover" width={200} height={200} alt="" /> :
+              preview ? <img src={preview} className="rounded-circle object-fit-cover" width={200} height={200} alt="" /> :
+                <div style={{ textAlign: "center" }}>
+                  <i className="bi bi-person-circle display-1" />
+                </div>
+            }
+          </div>
+        }
         <div className="mt-3">
           {userData?.profileImageUrl ?
             <button className="btn btn-danger col-md-1" onClick={() => removeImage()}>Remove</button> :
